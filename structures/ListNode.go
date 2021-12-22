@@ -3,8 +3,8 @@ package structures
 import "fmt"
 
 type ListNode struct {
-    data interface{}
-    next *ListNode
+    Data int
+    Next *ListNode
 }
 
 type LinkList struct {
@@ -12,61 +12,49 @@ type LinkList struct {
     length uint
 }
 
-// 初始化链表
-func NewLinkList() *LinkList {
-    return &LinkList{
-        head:   &ListNode{
-            data: 0,
-            next: nil,
-        },
-        length: 0,
-    }
-}
+// 链表转数组
+func List2Ints(head *ListNode) []int {
+    limit := 100
+    times := 0
+    res := []int{}
 
-// 初始化节点数据
-func NewLinkNode(value interface{}) *ListNode {
-    return &ListNode{
-        data: value,
-        next: nil,
-    }
-}
-
-// 获取下一个节点
-func (n *ListNode) GetNext() *ListNode {
-    return n.next
-}
-
-// 获取当前节点数据
-func (n *ListNode) GetValue() interface{} {
-    return n.data
-}
-
-// 尾部添加节点
-func (l *LinkList) Append(node *ListNode) {
-    cur := l.head
-    for i := uint(0); i < l.length; i++ {
-        cur = cur.next
-    }
-    cur.next = node
-    l.length++
-}
-
-// 打印链表
-func (l LinkList) Show() {
-    cur := l.head.next
-    for cur != nil {
-        fmt.Print(cur.data)
-        if cur.next != nil {
-            fmt.Print(" -> ")
+    for head != nil {
+        times++
+        if times > limit {
+            msg := fmt.Sprintf("链表深度超过%d，可能出现环装链表。", limit)
+            panic(msg)
         }
-        cur = cur.next
+        res = append(res, head.Data)
+        head = head.Next
     }
+    return res
 }
-//
-//func main()  {
-//    linkList := NewLinkList()
-//    linkList.Append(NewLinkNode(1))
-//    linkList.Append(NewLinkNode(2))
-//    linkList.Append(NewLinkNode(3))
-//    linkList.Show()
-//}
+
+// 数组转链表
+func Ints2List(nums []int) *ListNode {
+    if len(nums) == 0 {
+        return nil
+    }
+
+    l := &ListNode{}
+    t := l
+    for _, v := range nums{
+        t.Next = &ListNode{
+            Data: v,
+        }
+        t = t.Next
+    }
+    return l.Next
+}
+
+func (h *ListNode) Show() {
+    if h == nil {
+        return
+    }
+    fmt.Print(h.Data)
+    for h.Next != nil {
+        h = h.Next
+        fmt.Print(" -> " , h.Data)
+    }
+    fmt.Println()
+}
