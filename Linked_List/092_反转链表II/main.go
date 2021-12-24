@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
     "leetcode/structures"
 )
 
@@ -14,9 +13,7 @@ func main() {
     //head = reverse(head)
     //head = reverseN(head, 3)
     head = reverseBetween(head, 2,4)
-    n := structures.List2Ints(head)
-    fmt.Printf("%v",n)
-    //head.Show()
+    head.Show()
 }
 
 
